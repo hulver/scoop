@@ -1,0 +1,44 @@
+<%- include('_head') %>
+
+
+<body>
+
+<!-- header table -->
+<div class="page_header">
+    <div class="site_logo">
+        <a style="text-decoration: none" href="|site_url||rootdir|/">
+        <img src="/images/Husicow_Var01-banner.jpg">
+        <img src="/images/Husitext_Var01.jpg">
+        </a>
+    </div>
+    <div class="section_links">
+    |section_links|
+    </div>
+    <div class="new_user_box">
+    |BOX,new_user_box|
+    </div>
+    </div>
+    <br style="clear: both">
+    <!-- X header table -->
+    <form name="logout_form" method="post" action="|rootdir|/logout"></form>
+</div>
+<!-- Main layout -->
+
+<div class="container">
+
+<div class="main">
+
+<div class="sectiontitle">
+        <%= scoop.section.title %>
+</div>
+
+        |BOX,new_admin_news|
+        |CONTENT|
+</div>
+|index_right_boxes|
+</div>
+<!-- X Main layout -->
+<p></p>
+<%- include('_footer.ejs') -%>
+</body>
+</html>

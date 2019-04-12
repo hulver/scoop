@@ -4,7 +4,10 @@
   "description": "Scoop - The next generation",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "start-watch": "nodemon --inspect=0.0.0.0",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "debug": "node --inspect-brk index.js"
   },
   "author": "",
   "license": "ISC",
@@ -15,5 +18,10 @@
     "nodemon": "^1.18.11",
     "sinon": "^7.3.1",
     "standard": "^12.0.1"
+  },
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-session": "^1.16.1"
   }
 }
