@@ -6,7 +6,7 @@ class SectionCollection {
             let x = new sec()
             x.title = element.title;
             x.sectionid = element.sectionid
-            x.view_roles = element.view_roles
+            x.story_view_roles = element.story_view_roles
             return x
         });
     }

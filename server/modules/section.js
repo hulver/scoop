@@ -3,7 +3,7 @@ class Section {
     {
         this.title = ""
         this.sectionid = ""
-        this.view_roles = []
+        this.story_view_roles = []
     }
 }
 module.exports = Section

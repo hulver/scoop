@@ -1,0 +1,4 @@
+{
+    "storylist":
+    "SELECT sid,aid,title FROM stories ORDER BY time DESC LIMIT 5"
+}

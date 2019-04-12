@@ -33,7 +33,10 @@
 </div>
 
         |BOX,new_admin_news|
-        |CONTENT|
+<% storylist.forEach(function(story){ %>
+<%- include('storysummary.ejs', {story: story}) %>
+<% }) %>
+
 </div>
 |index_right_boxes|
 </div>

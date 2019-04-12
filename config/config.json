@@ -19,17 +19,27 @@
 		{ 
 			"sectionid": "Diary",
 			"title": "Diaries",
-			"view_roles": []
+			"story_view_roles": ["user","new_user"],
+			"comment_view_roles": ["user","new_user"]
 		},
 		{
 			"sectionid": "Crap",
 			"title": "The Hole",
-			"view_roles": []
+			"story_view_roles": ["user"],
+			"comment_view_roles": ["user"]
 		},
 		{
 			"sectionid": "cellar",
 			"title": "The Whine Cellar",
-			"view_roles": []
+			"story_view_roles": ["user"],
+			"comment_view_roles": ["user"]
 		}
-	]
+	],
+	"database":
+	{
+		"host": "localhost",
+		"database": "scoop",
+		"user": "scoop",
+		"password": "scoop"
+	}
 }

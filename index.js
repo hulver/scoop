@@ -11,7 +11,7 @@ app.use(express.static('./server/public'))
 app.use(session(config.session))
 
 app.get('/', require('./server/views/index'))
-app.get('/section/:sectionName', require('./server/views/index'))
+app.get('/section/:sectionId', require('./server/views/index'))
 
 app.listen(config.server.port)
 
