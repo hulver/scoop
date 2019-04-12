@@ -1,0 +1,19 @@
+{
+  "name": "scoop-ng",
+  "version": "1.0.0",
+  "description": "Scoop - The next generation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint-plugin-import": "^2.16.0",
+    "mocha": "^6.1.3",
+    "nodemon": "^1.18.11",
+    "sinon": "^7.3.1",
+    "standard": "^12.0.1"
+  }
+}
