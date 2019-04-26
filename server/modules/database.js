@@ -2,6 +2,9 @@ db = require("mysql2")
 
 class Database {
     constructor (config) {
+        if (process.env.SCOOP_DB_PASS) {
+            config.password = process.env.SCOOP_DB_PASS
+        }
         this._pool = db.createPool({
             connectionLimit: 10,
             waitForConnections: true,
