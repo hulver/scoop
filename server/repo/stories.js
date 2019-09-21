@@ -1,11 +1,11 @@
-const scoop = require("./scoop")
-const Story = require("./story")
+const Story = require("../models/story")
+const queries = require('./queries.json')
 class StoryCollection {
-    constructor (scoop) {
-        this.scoop = scoop;
+    constructor (database) {
+        this.database = database;
     }
     async GetStoryList(section) {
-        const rows = await this.scoop.database.RunQuery(this.scoop.queries.storylist)
+        const rows = await this.database.RunQuery(queries.storylist)
         const result = rows.map(element => {
             let _story = new Story()
             _story.sid = element.sid

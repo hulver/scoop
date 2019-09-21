@@ -1,9 +1,9 @@
-sec = require('./section')
+Section = require('../models/section')
 
 class SectionCollection {
     constructor(sections){
         this._sections = sections.map(element => {
-            let x = new sec()
+            const x = new Section()
             x.title = element.title;
             x.sectionid = element.sectionid
             x.story_view_roles = element.story_view_roles
@@ -18,7 +18,7 @@ class SectionCollection {
         section = this._sections.find(x => x.sectionid === sectionid)
         if (typeof section == "undefined")
         {
-            section = new sec()
+            section = new Section()
         }
         return section
     }

@@ -1,9 +1,8 @@
 const scoop = {}
 const config = require('../../config/config.json')
-const sections = require('./sections')
-const queries = require('./queries.json')
+const Sections = require('../repo/sections')
 const database = require('./database')
-const stories = require('./stories')
+const Stories = require('../repo/stories')
 
 if (process.env.SCOOP_DB_PASS) {
     config.database.password = process.env.SCOOP_DB_PASS
@@ -19,9 +18,8 @@ if (process.env.SCOOP_DB_HOST) {
 }
 
 scoop.name = config.site.name;
-scoop.sections = new sections(config.sections)
-scoop.queries = queries
+scoop.sections = new Sections(config.sections)
 scoop.database = new database(config.database)
-scoop.stories = new stories(scoop)
+scoop.stories = new Stories(scoop)
 
 module.exports = scoop;
