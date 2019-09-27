@@ -13,7 +13,7 @@ module.exports = (req, res) => {
       scoop.section.title = 'Front Page'
     }
   }
-  scoop.stories.GetStoryList('').then(values => {
+  scoop.stories.getStoryList('').then(values => {
     console.log(values)
     res.render('index.ejs', { scoop: scoop, storylist: values })
   })

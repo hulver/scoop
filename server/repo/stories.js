@@ -5,7 +5,7 @@ class StoryCollection {
     this.database = database
   }
   async getStoryList (section) {
-    const rows = await this.database.RunQuery(queries.storylist)
+    const rows = await this.database.runQuery(queries.storylist)
     const result = rows.map(element => {
       let _story = new Story()
       _story.sid = element.sid
