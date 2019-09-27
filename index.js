@@ -4,9 +4,9 @@ const express = require('express')
 const session = require('express-session')
 const app = express()
 
-app.set('views','./server/views')
+app.set('views', './server/views')
 
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static('./server/public'))
 app.use(session(config.session))
 
