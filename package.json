@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "start-watch": "nodemon --inspect=0.0.0.0",
+    "pretest": "standard",
     "test": "echo \"Error: no test specified\" && exit 1",
     "debug": "node --inspect-brk index.js"
   },
