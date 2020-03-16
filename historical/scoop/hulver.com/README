@@ -1,0 +1,6 @@
+This directory contains the SQL scripts nessesary to replicate all of
+hulver.com's functions. It also contains all the html used to generate
+the look of hulver.com. You're welcome to use the code, but please 
+don't steal the look.
+
+It's all released under the same licence as scoop, the GPL.
