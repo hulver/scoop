@@ -4,10 +4,10 @@
   "description": "Scoop - The next generation",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node ./frontend/index.js",
     "start-watch": "nodemon --inspect=0.0.0.0",
     "pretest": "standard",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "debug": "node --inspect-brk index.js"
   },
   "repository": {

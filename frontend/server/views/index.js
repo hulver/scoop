@@ -1,5 +1,5 @@
 const scoop = require('../modules/scoop')
-const Section = require('../modules/section')
+const Section = require('../models/section')
 module.exports = (req, res) => {
   if (req.params.sectionId === '__all__') {
     scoop.section = new Section()
