@@ -1,4 +1,4 @@
-import db from 'mysql2'
+import db from 'mariadb'
 import fs from 'fs/promises'
 import dotenv from 'dotenv'
 
@@ -54,46 +54,48 @@ console.log(archiveConfig)
 // Clear out the result file
 
 let storyCount = 0
-const conn = db.createConnection(config)
-const outputFile = await fs.open('stories.json', 'w')
-await outputFile.appendFile('[')
-
-const processStories = async (conn) => {
-  let res, err
-  const allDone = new Promise((resolve, reject) => {
-    res = resolve
-    err = reject
-  })
-
-  conn.query(qSql, uid)
-    .on('error', (error) => {
-      console.log(error)
-      err(error)
-    })
-    .on('result', async (row) => {
+const processStories = async (connection) => {
+  const queryStream = connection.queryStream(qSql, uid)
+  try {
+    for await (const row of queryStream) {
       let output = ''
       if (storyCount > 0) {
         output = ',\n'
       }
       storyCount++
       await outputFile.appendFile(output + JSON.stringify(row))
-    })
-    .on('end', async () => {
-      await conn.close()
-      res()
-    })
-  return allDone
+    }
+  } catch (e) {
+    queryStream.close()
+  }
 }
 
-if (scoop.hasArchive) {
-  const archivedb = db.createConnection(scoop.archiveDatabase)
-  await processStories(archivedb)
-  console.log(`Processed archive database (total ${storyCount} entries)`)
+const outputFile = await fs.open('stories.json', 'w')
+
+try {
+  const conn = await db.createConnection(config)
+  try {
+    await outputFile.appendFile('[')
+
+    await processStories(conn)
+  } finally {
+    conn.end()
+  }
+
+  console.log(`Processed main database (total ${storyCount} entries)`)
+
+  if (scoop.hasArchive) {
+    const archivedb = await db.createConnection(scoop.archiveDatabase)
+    try {
+      await processStories(archivedb)
+    } finally {
+      archivedb.end()
+    }
+    console.log(`Processed archive database (total ${storyCount} entries)`)
+  }
+
+  if (storyCount > 0) await outputFile.appendFile(']\n')
+} finally {
+  await outputFile.close()
 }
-
-await processStories(conn)
-console.log(`Processed main database (total ${storyCount} entries)`)
-
-if (storyCount > 0) await outputFile.appendFile(']\n')
-await outputFile.close()
 console.log(`Wrote ${storyCount} entries total`)
