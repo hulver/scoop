@@ -2,7 +2,4 @@ node_modules/
 .vscode/
 husi-data/
 config-env
-start-mysql
-setup-mysql
-remove-mysql
 .env

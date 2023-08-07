@@ -1,0 +1,3 @@
+docker stop mysql1
+docker container rm mysql1
+docker volume rm mysqldata1

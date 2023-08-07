@@ -1,0 +1,3 @@
+docker volume create mysqldata1
+docker run --name=mysql1 -d -p 3306:3306 --mount source=mysqldata1,target=/var/lib/mysql --mount type=bind,source="`pwd`"/data/,target=/docker-entrypoint-initdb.d -e MYSQL_ROOT_PASSWORD=mypassword -e MYSQL_DATABASE=scoop -e MYSQL_USER=scoop -e MYSQL_PASSWORD=scoop mysql/mysql-server --default_authentication_plugin=mysql_native_password
+docker logs -f mysql1
