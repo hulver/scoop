@@ -1,5 +1,7 @@
 node_modules/
 .vscode/
-husi-data/
-config-env
+.npm/
+.cache/
 .env
+husi-data/
+stories.json
