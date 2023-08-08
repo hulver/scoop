@@ -1,20 +1,20 @@
-import saveData from './saveData.mjs'
+import exportData from './exportData.mjs'
 
 const uid = 2
 
 let rowCount = 0
 
-await saveData.start()
+await exportData.start()
 try {
   console.log('Writing my stories')
-  rowCount = await saveData.processMyStories(uid, 'output/myStories.json')
+  rowCount = await exportData.processMyStories(uid, 'output/myStories.json')
   console.log(`Wrote ${rowCount} entries total`)
   console.log('Writing my comments')
-  rowCount = await saveData.processMyComments(uid, 'output/myComments.json')
+  rowCount = await exportData.processMyComments(uid, 'output/myComments.json')
   console.log(`Wrote ${rowCount} entries total`)
   console.log('Writing my private messages')
-  rowCount = await saveData.processMyDMs(uid, 'output/myDMs.json')
+  rowCount = await exportData.processMyDMs(uid, 'output/myDMs.json')
   console.log(`Wrote ${rowCount} entries total`)
 } finally {
-  await saveData.end()
+  await exportData.end()
 }
