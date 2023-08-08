@@ -1,5 +1,6 @@
 import db from 'mariadb'
 import dotenv from 'dotenv'
+import fs from 'fs/promises'
 dotenv.config()
 
 const scoop = {}
@@ -69,64 +70,63 @@ const end = async () => {
   }
 }
 
-const processSql = async (uid, query, outputFile) => {
+const processMyStories = async (uid, outputFileName) => {
+  return await processExport(myStorySql, uid, true, outputFileName)
+}
+
+const processMyComments = async (uid, outputFileName) => {
+  return await processExport(myCommentSql, uid, true, outputFileName)
+}
+
+const processMyDMs = async (uid, outputFileName) => {
+  return await processExport([myDMsSqlGot, myDMsSqlSent], uid, false, outputFileName)
+}
+
+const processExport = async (query, uid, useArchive, outputFileName) => {
   let rowCount = 0
-  const conn = await scoop.poolCluster.getConnection('main')
+
+  const outputFile = await fs.open(outputFileName, 'w')
   try {
-    await outputFile.appendFile('[')
-
-    rowCount = await processQuery(conn, outputFile, rowCount, query, uid)
-  } catch (err) {
-    console.log(err)
-  } finally {
-    conn.end()
-  }
-
-  console.log(`Processed main database (total ${rowCount} entries)`)
-
-  if (scoop.hasArchive) {
-    const archivedb = await scoop.poolCluster.getConnection('archive')
-    try {
-      rowCount = await processQuery(archivedb, outputFile, rowCount, query, uid)
-    } finally {
-      archivedb.end()
+    const processSingleQuery = async (conn, query, uid) => {
+      if (Array.isArray(query)) {
+        for (const q of query) {
+          rowCount = await processQuery(conn, outputFile, rowCount, q, uid)
+        }
+      } else {
+        rowCount = await processQuery(conn, outputFile, rowCount, query, uid)
+      }
+      return rowCount
     }
-    console.log(`Processed archive database (total ${rowCount} entries)`)
-  }
 
-  if (rowCount > 0) await outputFile.appendFile(']\n')
-
-  return rowCount
-}
-
-const processMyStories = async (uid, outputFile) => {
-  return await processSql(uid, myStorySql, outputFile)
-}
-
-const processMyComments = async (uid, outputFile) => {
-  return await processSql(uid, myCommentSql, outputFile)
-}
-
-const processMyDMs = async (uid, outputFile) => {
-  let rowCount = 0
-  const conn = await scoop.poolCluster.getConnection('main')
-  try {
-    await outputFile.appendFile('[')
-
-    rowCount = await processQuery(conn, outputFile, rowCount, myDMsSqlGot, uid)
-    rowCount = await processQuery(conn, outputFile, rowCount, myDMsSqlSent, uid)
-  } catch (err) {
-    console.log(err)
+    const conn = await scoop.poolCluster.getConnection('main')
+    try {
+      await outputFile.appendFile('[')
+      rowCount = await processSingleQuery(conn, query, uid)
+    } catch (err) {
+      console.log(err)
+    } finally {
+      conn.end()
+    }
+    if (scoop.hasArchive && useArchive) {
+      const archivedb = await scoop.poolCluster.getConnection('archive')
+      try {
+        rowCount = await processSingleQuery(conn, query, uid)
+      } catch (err) {
+        console.log(err)
+      } finally {
+        archivedb.end()
+      }
+      console.log(`Processed archive database (total ${rowCount} entries)`)
+    }
+    if (rowCount > 0) await outputFile.appendFile(']\n')
   } finally {
-    conn.end()
+    await outputFile.close()
   }
-  console.log(`Processed main database (total ${rowCount} entries)`)
-  if (rowCount > 0) await outputFile.appendFile(']\n')
   return rowCount
 }
 
 const processQuery = async (connection, outputFile, rowCount, query, parameters) => {
-  const queryStream = connection.queryStream(query, parameters)
+  const queryStream = connection.queryStream(query, [parameters])
   try {
     for await (const row of queryStream) {
       let output = ''
