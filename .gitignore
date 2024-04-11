@@ -4,4 +4,5 @@ node_modules/
 .cache/
 .env
 husi-data/
+data/
 output/*

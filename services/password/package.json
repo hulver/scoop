@@ -1,0 +1,15 @@
+{
+  "name": "scoop-password",
+  "version": "1.0.0",
+  "description": "Password checking service for scoop-ng",
+  "main": "index.js",
+  "scripts": {
+    "test": "node --test test/"
+  },
+  "author": "Matthew Collins",
+  "license": "AGPL-3.0-or-later",
+  "type": "module",
+  "dependencies": {
+    "ffi-napi": "^4.0.3"
+  }
+}
