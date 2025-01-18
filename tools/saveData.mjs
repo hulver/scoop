@@ -108,7 +108,12 @@ const processExport = async (query, uid, useArchive, outputFileName) => {
 }
 
 const processQuery = async (connection, outputFile, rowCount, query, parameters) => {
-  const queryStream = connection.queryStream(query, [parameters])
+  let queryStream
+  if (parameters) {
+    queryStream = connection.queryStream(query, [parameters])
+  } else {
+    queryStream = connection.queryStream(query)
+  }
   try {
     for await (const row of queryStream) {
       let output = ''

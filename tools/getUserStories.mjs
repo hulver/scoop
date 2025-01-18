@@ -15,6 +15,8 @@ try {
   console.log('Writing my private messages')
   rowCount = await exportData.processMyDMs(uid, 'output/myDMs.json')
   console.log(`Wrote ${rowCount} entries total`)
+  console.log('Writing all stories')
+  rowCount = await exportData.processAllStories(uid, 'output/allStories.json')
 } finally {
   await exportData.end()
 }

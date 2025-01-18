@@ -1,13 +1,13 @@
 import ffi from 'ffi-napi'
 
 const libcrypt = ffi.Library('libcrypt', {
-  'crypt': ['string', ['string', 'string']]
-});
+  crypt: ['string', ['string', 'string']]
+})
 
 const cleanSalt = (value) => {
-  var salt = value.substring(0,2)
+  let salt = value.substring(0, 2)
   if (salt.length < 2) salt += salt
-  salt = salt.substring(0,2)
+  salt = salt.substring(0, 2)
   return salt
 }
 
@@ -19,7 +19,7 @@ const passwordHash = (password) => {
 
   const hash = libcrypt.crypt(password, salt)
 
-  return (hash.substring(2,hash.length))
+  return (hash.substring(2, hash.length))
 }
 
 const comparePassword = (password, hash) => {
